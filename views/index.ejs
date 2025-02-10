@@ -95,25 +95,57 @@
         let dx = btnCenterX - e.clientX;
         let dy = btnCenterY - e.clientY;
         let length = Math.hypot(dx, dy);
+        
+        // If the pointer is extremely close, choose a random direction.
         if (length < 1) {
           const angle = Math.random() * 2 * Math.PI;
           dx = Math.cos(angle);
           dy = Math.sin(angle);
           length = 1;
         }
-        const step = 450;
+        
+        // Constants for corner adjustments.
+        const nearBoundaryThreshold = 300; // if the button is within 300px of a wall
+        const pushForce = 300; // extra force to push away from the wall
+        
+        // Check for each corner. Use rect.right and rect.bottom as (rect.left + rect.width) and (rect.top + rect.height)
+        if (rect.left < nearBoundaryThreshold && rect.top < nearBoundaryThreshold) {
+          // Top-left corner: push rightwards and downwards.
+          dx = Math.abs(dx) + pushForce;
+          dy = Math.abs(dy) + pushForce;
+        } else if (rect.right > window.innerWidth - nearBoundaryThreshold && rect.top < nearBoundaryThreshold) {
+          // Top-right corner: push leftwards and downwards.
+          dx = -Math.abs(dx) - pushForce;
+          dy = Math.abs(dy) + pushForce;
+        } else if (rect.left < nearBoundaryThreshold && rect.bottom > window.innerHeight - nearBoundaryThreshold) {
+          // Bottom-left corner: push rightwards and upwards.
+          dx = Math.abs(dx) + pushForce;
+          dy = -Math.abs(dy) - pushForce;
+        } else if (rect.right > window.innerWidth - nearBoundaryThreshold && rect.bottom > window.innerHeight - nearBoundaryThreshold) {
+          // Bottom-right corner: push leftwards and upwards.
+          dx = -Math.abs(dx) - pushForce;
+          dy = -Math.abs(dy) - pushForce;
+        }
+        
+        // Recalculate length after possible adjustments.
+        length = Math.hypot(dx, dy);
+        const step = 450; // the jump distance
         let newLeft = rect.left + (dx / length) * step;
         let newTop = rect.top + (dy / length) * step;
         const buttonWidth = rect.width;
         const buttonHeight = rect.height;
+        
+        // Ensure the button stays fully within the viewport.
         if (newLeft < 0) newLeft = 0;
         if (newLeft > window.innerWidth - buttonWidth) newLeft = window.innerWidth - buttonWidth;
         if (newTop < 0) newTop = 0;
         if (newTop > window.innerHeight - buttonHeight) newTop = window.innerHeight - buttonHeight;
+        
         noBtn.style.left = newLeft + 'px';
         noBtn.style.top = newTop + 'px';
       }
     });
+
   </script>
 </body>
 </html>
