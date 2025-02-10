@@ -39,7 +39,9 @@ const Valentine = mongoose.model("Valentine", valentineSchema);
 app.get("/create", (req, res) => {
 	res.render("create");
 });
-
+app.get("/", (req, res) => {
+	res.render("create");
+});
 /**
  * Route: POST /create
  * Saves the submitted details to the database and generates a shareable URL.
