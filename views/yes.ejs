@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Our Valentine's Date</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #ffe6e6;
+      margin: 0;
+    }
+    .details {
+      text-align: center;
+      border: 2px solid #ff4d4d;
+      padding: 20px;
+      border-radius: 10px;
+      background: #fff;
+    }
+    h2 { margin-bottom: 10px; }
+    p { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <div class="details">
+    <h2>Our Valentine's Date</h2>
+    <p><strong>Date:</strong> <%= data.date %></p>
+    <p><strong>Time:</strong> <%= data.time %></p>
+    <p><strong>Place:</strong> <%= data.place %></p>
+    <p><strong>Activity:</strong> <%= data.activity %></p>
+  </div>
+</body>
+</html>
